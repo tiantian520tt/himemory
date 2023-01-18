@@ -1,2 +1,1 @@
-# himemory
-A simple E-Newspaper.
+ <h1>Hi, Memory!</h1><p>欢迎使用HiMemory程序。<br>这个项目采用PHP5.x/HTML5/CSS3/JAVASCRIPT构建，运行在Nginx/Apache上，且兼容Linux/Windows操作系统。<br>HiMemory是一种电子报纸。他同正常的报纸不同，他具有迅捷的更新速度和更低的阅读门槛；他同以往的电子报纸也不同，他是响应式的/高度自定义的/内容维护方便的/信息随刻更新的。（在往常，电子报纸通常以PDF/DOCX文件形式下放，这对移动手机十分不友好）<br>本项目由tiantian520构建，这是他的<a href="https://github.com/tiantian520tt">Github</a><br>（他的真实名称由于需要上传至Github暂时隐藏，若您需要知道，那您肯定已经知道了）</p><h2>运行环境</h2><p>推荐环境：<br>PHP 5.X<br>Nginx<br>Linux CentOS 7.9.*<br>2 核心 2.6GHZ 以上 CPU<br>2 GB 运行内存<br>30 GB 硬盘空间<br> 5M 宽带<br>宝塔面板7.9.X（这不是必须的，但是十分推荐的）<br></p>
