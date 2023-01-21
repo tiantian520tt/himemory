@@ -12,15 +12,6 @@ header('Content-Security-Policy: frame-ancestors https://himemory.191810.xyz/;')
 @Tips: 点赞一篇文章，不需要登录，但一小时仅能给一篇文章点一次赞
 Powered by HiMemory, @tiantian520
 */
-//检查反CSRF令牌
-if(!isset($_SESSION['token']) || !isset($_POST['token'])){
-    echo "<script> alert(\"CSRF令牌校验错误！\"); window.location.href=\"index.php\";</script>";
-	die;
-}
-if (!($_SESSION['token'] === $_POST['token'])){
-    echo "<script> alert(\"CSRF令牌校验错误！\"); window.location.href=\"index.php\";</script>";
-	die;
-}
 /* GET拿到访问目标ID */
 if(isset($_GET['id'])){
     $article_id = $_GET['id'];

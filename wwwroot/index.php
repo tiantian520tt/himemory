@@ -12,16 +12,6 @@ Powered by HiMemory, @tiantian520
 /* include 网站配置 */
 include './config/config.php';
 
-/* 导入新闻信息 */
-if(file_exists('./config/news.news')){
-  $json = json_decode(file_get_contents('./config/news.news'),true);
-}else{
-  file_get_contents('./config/request.php');
-  sleep(5);
-  $json = json_decode(file_get_contents('./config/news.news'),true);
-}
-
-
 function getNews($id){
   $sql = 'SELECT * FROM news WHERE id = '.$id;
   global $news_db;
@@ -65,9 +55,9 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
 
 
   <!--Fonts section-->
-  <!--Use your own fonts here-->
-  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Magra:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.cn/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">
+  <link href="https://fonts.googleapis.cn/css?family=Magra:400,700" rel="stylesheet">
+  <link href="https://fonts.googlefonts.cn/css?family=Montserrat" rel="stylesheet">
   <!--ENDOF Fonts section-->
 
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -197,12 +187,90 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         </div>
 
         <!--Column Left-->
-        <div class="col-12 order-1 order-lg-1 col-sm-5 col-lg-3 col-xl-2 border-right mb-3 mb-lg-0">
+        <div class="col-12 order-1 order-lg-1 col-sm-5 col-lg-3 col-xl-<?php 
+        /* Added at 10:23 a.m. 1/21/2023 */
+        /* Auther: tiantian520 (SkyLine Studio) */
+        /* 
+        ???? What does it do?
+        ~---~ Control the column's size by custom articles. 
+        ???? How does it work?
+        ~---~ Get data from SQLite3 database, we can find many custom articles from admin.
+              First, we need to get the max length of articles.
+              Such as, uhhh, the article you read, yeah, me.
+              The article's max length is 76.
+              The max length line is "Get data..."
+              Okay, then we need to get a number by max length.
+              Usually, The col-xl is 4 if the max length is 52.
+              I try many times and got a list.
+              Finally, I only need to "echo" a number.
+              How easy!
+        ???? 它是干什么的？
+        ~--~ 通过自定义的文章控制这个列的尺寸
+        ???? 它怎么工作？
+        ~--~ 先从SQLite3数据库中拿到数据，我们可以看到许多自定义的文章来自管理员。
+             首先，我们需要去拿到这么多文章的最大的长度
+             比如，呃，你正在的读的这篇文章， 是的， 就是我。
+             这篇文章的最大长度是69个字符。
+             最大长度的那行是“先从SQLite3...”
+             Okay， 然后我们需要依据这个最大长度来拿到一个数字。
+             通常，当最大长度为52时，col-xl是4。
+             我试了很多次，并且拿到一个对应列表。
+             最后，我只需要用“echo”显示一个数字。
+             多么简单！
+        */
+        // It started working! -- 它开始工作了！
+        $row = getNews(5); // Function Get News Information -- 函数 获得新闻信息
+        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br />","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
+        $max = 0; // Set $max value -- 设置最大值
+        for($i = 0;$i < count($lines);$i++){ // Go to find the maximum value -- 去找到最大值
+          if (strlen($lines[$i]) > $max){
+            $max = strlen($lines[$i]);
+          }
+        }
+        $title_5 = strlen($row['title']);
+        // Again! -- 再来！
+        $row = getNews(6); // Function Get News Information -- 函数 获得新闻信息
+        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br />","<br />",$row['content']))));
+        for($i = 0;$i < count($lines);$i++){ // Go to find the maximum value -- 去找到最大值
+          if (strlen($lines[$i]) > $max){
+            $max = strlen($lines[$i]);
+          }
+        }
+        $title_6 = strlen($row['title']);
+        $max = max(array($max,$title5,$title6));
+        $TOTAL = 0;
+        if($max > 80){
+          echo "6";
+          $TOTAL += 6;
+        }
+        else if($max > 52 && $max <= 80){
+          echo "5";
+          $TOTAL += 5;
+        } 
+        else if($max <= 52 && $max >= 48){
+          echo "4";
+          $TOTAL += 4;
+        } 
+        else if($max > 29 && $max < 48) {
+          echo "3";
+          $TOTAL += 3;
+        }
+        else if($max <= 29 && $max > 13) {
+          echo "2";
+          $TOTAL += 2;
+        }
+        else if($max <= 13) {
+          echo "1";
+          $TOTAL ++;
+        }
+        // Reduce the space occupation as much as possible, make the allocation more reasonable, and the maximum length($TOTAL) is 12
+        // 尽可能减少空间占用，使分配更合理，最大长度($TOTAL)为12
+        ?> border-right mb-3 mb-lg-0">
 
           <div class="post mb-3 pb-3 border-bottom">
             <div class="post-header">
               <div class="post-supertitle">新闻</div>
-              <div class="post-title h4 font-weight-bold"><b><?php $row = getNews(5);echo $row['title']; ?></b></div>
+              <div class="post-title h4 font-weight-bold"><b><?php $row = getNews(5); echo $row['title']; ?></b></div>
             </div>
             <div class="post-body">
               <div class="post-content"><?php echo $row['content'] ; ?></div>
@@ -211,7 +279,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
             </div>
           </div>
 
-          <div class="post">
+          <div class="post mb-3 pb-3 border-bottom">
             <div class="post-header">
               <div class="post-supertitle">新闻</div>
               <div class="post-title h4 font-weight-bold"><?php $row = getNews(6);echo $row['title']; ?></div>
@@ -226,11 +294,79 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         </div>
 
         <!--Column Center -->
-        <div class="col-12 order-0 order-lg-2 col-sm-7 col-lg-4 col-xl-6 border-right mb-3 mb-lg-0">
+        <div class="col-12 order-0 order-lg-2 col-sm-7 col-lg-4 col-xl-<?php 
+        /* Added at 10:49 a.m. 1/21/2023 */
+        /* Auther: tiantian520 (SkyLine Studio) */
+        /* 
+        ???? What does it do?
+        ~---~ Control the column's size by custom articles. 
+        ???? How does it work?
+        ~---~ Get data from SQLite3 database, we can find many custom articles from admin.
+              First, we need to get the max length of articles.
+              Such as, uhhh, the article you read, yeah, me.
+              The article's max length is 76.
+              The max length line is "Get data..."
+              Okay, then we need to get a number by max length.
+              Usually, The col-xl is 4 if the max length is 52.
+              I try many times and got a list.
+              Finally, I only need to "echo" a number.
+              How easy!
+        ???? 它是干什么的？
+        ~--~ 通过自定义的文章控制这个列的尺寸
+        ???? 它怎么工作？
+        ~--~ 先从SQLite3数据库中拿到数据，我们可以看到许多自定义的文章来自管理员。
+             首先，我们需要去拿到这么多文章的最大的长度
+             比如，呃，你正在的读的这篇文章， 是的， 就是我。
+             这篇文章的最大长度是69个字符。
+             最大长度的那行是“先从SQLite3...”
+             Okay， 然后我们需要依据这个最大长度来拿到一个数字。
+             通常，当最大长度为52时，col-xl是4。
+             我试了很多次，并且拿到一个对应列表。
+             最后，我只需要用“echo”显示一个数字。
+             多么简单！
+        */
+        // It started working! -- 它开始工作了！
+        $row = getNews(7); // Function Get News Information -- 函数 获得新闻信息
+        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br />","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
+        $max = 0; // Set $max value -- 设置最大值
+        for($i = 0;$i < count($lines);$i++){ // Go to find the maximum value -- 去找到最大值
+          if (strlen($lines[$i]) > $max){
+            $max = strlen($lines[$i]);
+          }
+        }
+        $title_7 = strlen($row['title']);
+        $max = max(array($max,$title7));
+        if($max > 80){
+          echo "6";
+          $TOTAL += 6;
+        }
+        else if($max > 52 && $max <= 80){
+          echo "5";
+          $TOTAL += 5;
+        } 
+        else if($max <= 52 && $max >= 48){
+          echo "4";
+          $TOTAL += 4;
+        } 
+        else if($max > 29 && $max < 48) {
+          echo "3";
+          $TOTAL += 3;
+        }
+        else if($max <= 29 && $max > 13) {
+          echo "2";
+          $TOTAL += 2;
+        }
+        else if($max <= 13) { //中间无论如何也有两个格子，不然挤在一块十分难看
+          echo "2";
+          $TOTAL += 2;
+        }
+        // Reduce the space occupation as much as possible, make the allocation more reasonable, and the maximum length($TOTAL) is 12
+        // 尽可能减少空间占用，使分配更合理，最大长度($TOTAL)为12
+        ?> border-right mb-3 mb-lg-0">
 
-          <div class="post">
+          <div class="post mb-3 pb-3 border-bottom">
             <div class="post-header">
-              <div class="post-supertitle">摄影、艺术与动漫</div>
+              <div class="post-supertitle">摄影、艺术与动漫</div> <!-- 允许自定义 自行修改index.php -->
               <div class="post-title h3 font-weight-bold"><?php $row = getNews(7);echo $row['title']; ?></div>
             </div>
             <div class="post-media">
@@ -242,10 +378,30 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
                 <i class="fa fa-clock-o" aria-hidden="true"></i><?php $row = getNews(7);echo $row['date']; ?></div>
             </div>
           </div>
+
+          <div class="post mb-3 pb-3 border-bottom">
+          <?php //自动爬取bilibili热门视频，与request.php同进行 
+              //https://api.bilibili.com/x/web-interface/dynamic/region?ps=1&rid=1
+              $json = json_decode(file_get_contents('./config/videos.videos'),true);
+              $video = $json['data']['archives'][0];
+              ?>
+            <a href="<?php echo $video['short_link']; ?>"><div class="post-header">
+              <div class="post-supertitle"><?php echo $video['tname']; ?></div> 
+              <div class="post-title h3 font-weight-bold"><?php echo $video['title']; ?></div>
+            </div>
+            <div class="post-media">
+              <img class="img-fluid" src="./img/<?php echo file_get_contents('./config/videos.pic');?>">
+            </div>
+            <div class="post-body">
+              <div class="post-content"><?php echo $video['desc']; ?></div>
+              <div class="post-date">
+                <?php echo "哔哩哔哩 - ".$video['owner']['name']; ?></div>
+            </div></a>
+          </div>
         </div>
 
         <!--Column Right -->
-        <div class="col-12 order-2 order-lg-3 col-sm-12 col-lg-5 col-xl-4 mb-3 mb-lg-0 ">
+        <div class="col-12 order-2 order-lg-3 col-sm-12 col-lg-5 col-xl-<?php echo 12-$TOTAL; //留下最大空间?> mb-3 mb-lg-0 ">
 
           <div class="post mb-3">
             <div class="post-media float-left mr-3">
@@ -260,9 +416,65 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
           </div>
 
           <div class="mb-5 text-center bg-hard-light">
-            <div class="small" style="background-color: rgba(0,0,0,0.05)"><span class="text-muted font-alegreya">A D</span></div>
+            <div class="small" style="background-color: rgba(0,0,0,0.05)"><span class="text-muted font-alegreya"><?php echo date("Y年m月d日"); ?></span></div>
             <div class="py-2">
-              <a href="https://www.mediatek.cn/"><img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA15U4eQ.img?w=627&amp;h=624&amp;m=6" class="img-fluid" height="100" width="100"></a>
+              <!-- <a href="https://www.mediatek.cn/"><img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA15U4eQ.img?w=627&amp;h=624&amp;m=6" class="img-fluid" height="100" width="100"></a>-->
+              <?php 
+              if(isset($INDEX_USERNAME) && isset($INDEX_USERID) && isset($INDEX_QQID)){
+                $sql = "SELECT * FROM lucky WHERE id = $INDEX_USERID;";
+                $result = $data_db->query($sql);
+                $cnt = 0;
+                while($row = $result->fetchArray(SQLITE3_ASSOC)){
+                  $last_sign = $row['date'];
+                  if((time()-$last_sign) > 86400){
+                    // 一天过去了，可以签到了
+                    $lucky_value = rand(0,100);
+                    $lucky_date = time();
+                    $sql = "UPDATE lucky SET value = $lucky_value, date = $lucky_date WHERE id = $INDEX_USERID;";
+                    $result = $data_db->exec($sql);
+                    $cnt ++;
+                    echo "今日运势：<br/>";
+                    // 以下是日常判断逻辑，但跨年期间（1-2月）我更希望都是吉和大吉
+                    if(date('m') == '1') echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red;\">大吉</h1>";
+                    else if(date('m') == '2' && date('d') <= 10) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red\">吉</h1>";
+                    else if($lucky_value >= 80) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red;\">大吉</h1>";
+                    else if($lucky_value < 80 && $lucky_value >= 60) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red\">吉</h1>";
+                    else if($lucky_value < 60 && $lucky_value >= 40) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:grey\">平</h1>";
+                    else if($lucky_value < 40 && $lucky_value >= 20) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:black\">凶</h1>";
+                    else if($lucky_value < 20 && $lucky_value >= 0) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:black\">大凶</h1>";
+                  }else{
+                    // 签到过了，直接给数据
+                    echo "今日运势：<br/>";
+                    $lucky_value = $row['value'];
+                    if(date('m') == '1') echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red;\">大吉</h1>";
+                    else if(date('m') == '2' && date('d') <= 10) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red\">吉</h1>";
+                    else if($lucky_value >= 80) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red;\">大吉</h1>";
+                    else if($lucky_value < 80 && $lucky_value >= 60) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red\">吉</h1>";
+                    else if($lucky_value < 60 && $lucky_value >= 40) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:grey\">平</h1>";
+                    else if($lucky_value < 40 && $lucky_value >= 20) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:black\">凶</h1>";
+                    else if($lucky_value < 20 && $lucky_value >= 0) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:black\">大凶</h1>";
+                    $cnt ++;
+                  }
+                }
+                if(!$cnt){
+                  // 没数据，说明第一次注册和签到，插入新数据
+                  $lucky_value = rand(0,100);
+                  $lucky_date = time();
+                  $sql = "INSERT INTO lucky VALUES($INDEX_USERID,$lucky_date,$lucky_value);";
+                  $result=$data_db->exec($sql);
+                  echo "首次签到运势：<br/>";
+                  if(date('m') == '1') echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red;\">大吉</h1>";
+                    else if(date('m') == '2' && date('d') <= 10) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red\">吉</h1>";
+                    else if($lucky_value >= 80) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red;\">大吉</h1>";
+                    else if($lucky_value < 80 && $lucky_value >= 60) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:red\">吉</h1>";
+                    else if($lucky_value < 60 && $lucky_value >= 40) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:grey\">平</h1>";
+                    else if($lucky_value < 40 && $lucky_value >= 20) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:black\">凶</h1>";
+                    else if($lucky_value < 20 && $lucky_value >= 0) echo "<h1 style=\"font-family: 宋黑, 'Times New Roman', Times, serif;font-size: 3rem;color:black\">大凶</h1>";
+                }
+              }else{
+                echo "你居然还没有登录呀！戳<a href='login.php'>我</a>去登录吧~";
+              }
+              ?>
             </div>
           </div>
 
@@ -283,7 +495,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
               <img src="<?php $row = getNews(10);echo $row['img']; ?>" width="375">
             </div>
             <div class="post-header">
-              <div class="post-title h5 font-weight-bold"><?php $row = getNews(10);echo $row['title']; ?></div>
+              <div class="post-title h5 font-weight-bold"><?php $row = getNews(10);echo "<br/><br/><br/><br/>".$row['title']; ?></div>
             </div>
             <div class="post-body">
               <div class="post-content"><?php $row = getNews(10);echo $row['content']; ?></div>
@@ -303,13 +515,23 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
     <div class="container">
       <div class="row py-4">
         <div class="col text-center">
-          <a href="https://apple.com/"><img src="./img/posts/2023_1_3_APPLE.PNG" class="img-fluid"></a>
+          <!-- <script src="qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js"></script> -->
+                   
         </div>
       </div>
     </div>
   </section>
 
-
+  <?php 
+    /* 导入新闻信息 */
+  if(file_exists('./config/news.news')){
+    $json = json_decode(file_get_contents('./config/news.news'),true);
+  }else{
+    file_get_contents('./config/request.php');
+    sleep(5);
+    $json = json_decode(file_get_contents('./config/news.news'),true);
+  }
+  ?>
   <!-- Section -->
   <section class="section" name="news">
     <div class="container">
@@ -507,6 +729,9 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
                               //$img = 'http://q2.qlogo.cn/headimg_dl?dst_uin='.$qq_id.'&spec=100';
                               $img = 'http://q2.qlogo.cn/headimg_dl?dst_uin='.$qq_id.'&spec=640&img_type=jpg';
                             }
+                            if(empty($qq_id) || empty($auther)){
+                              $img = './img/user.png';
+                            }
                             // http://q2.qlogo.cn/headimg_dl?dst_uin=3120690593&spec=100
                             if($auther == 'tiantian520'){
                               echo '<div class="post mb-3 pb-3 border-bottom"><div class="row"><div class="col-auto"><div class="post-media "><a href="user.php?id=1"><img src="'.$img.'" alt="'.$auther.'" width="100"></a></div></div><div class="col"><div class="post-header"><div class="post-title h5 font-weight-bold">'.$title.'</div></div><div class="post-body"><div class="post-content">'.$content.'</div><div class="post-date"><i class="fa fa-clock-o" aria-hidden="true"></i>'.$date_.'<i><br/><i>共 '.$article_like.' 人觉得很赞</i><br/><a href="like.php?id='.$article_id.'">点赞</a></i></div></div></div></div></div>';
@@ -533,38 +758,39 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
           </div>
           <div class="widget-posts gradient-back text-white bg-light px-3 pb-3 pt-1 shadow ">
             <div class="widget-header">
-              <div class="widget-title">一言</div>
+              <div class="widget-title">杂记</div>
             </div>
 
             <div class="post mb-3 pb-1 border-bottom clearfix">
               <div class="post-media float-left mr-3">
+                  <?php $json = json_decode(file_get_contents('https://saying.api.azwcl.com/saying/get'),true);echo $json['data']['auther']; ?>
               </div>
               <div class="post-header">
-                <div class="post-title h6 font-weight"><?php echo file_get_contents('https://v.api.aa1.cn/api/yiyan/index.php'); ?></div>
-              </div>
-            </div>
-
-            <div class="post mb-3 pb-1 border-bottom clearfix">
-              <div class="post-media float-left mr-3">
-              </div>
-              <div class="post-header">
-                <div class="post-title h6 font-weight"><?php echo file_get_contents('https://v.api.aa1.cn/api/yiyan/index.php'); ?></div>
+                <div class="post-title h6 font-weight"><?php echo $json['data']['content']; ?></div>
               </div>
             </div>
 
             <div class="post mb-3 pb-1 border-bottom clearfix">
               <div class="post-media float-left mr-3">
+                  <?php $json = json_decode(file_get_contents('https://v1.jinrishici.com/all.json'),true);echo $json['auther']; ?>
               </div>
               <div class="post-header">
-                <div class="post-title h6 font-weight"><?php echo file_get_contents('https://v.api.aa1.cn/api/yiyan/index.php'); ?></div>
+                <div class="post-title h6 font-weight"><?php echo $json['content']; ?></div>
               </div>
             </div>
-
-            <div class="post clearfix">
+            <div class="post mb-3 pb-1 border-bottom clearfix">
+              <div class="post-media float-left mr-3">
+                  <?php $json = json_decode(file_get_contents('https://v1.jinrishici.com/all.json'),true);echo $json['auther']; ?>
+              </div>
+              <div class="post-header">
+                <div class="post-title h6 font-weight"><?php echo $json['content']; ?></div>
+              </div>
+            </div>
+            <div class="post mb-3 pb-1 border-bottom clearfix">
               <div class="post-media float-left mr-3">
               </div>
               <div class="post-header">
-                <div class="post-title h6 font-weight"><?php echo file_get_contents('https://v.api.aa1.cn/api/yiyan/index.php'); ?></div>
+                <div class="post-title h6 font-weight"><?php $content = file_get_contents('https://v.api.aa1.cn/api/api-wenan-mingrenmingyan/index.php?aa1=text');echo explode("——",$content)[1]; ?><?php if(!empty(explode("——",$content)[1])) echo "<br/>";?><?php echo explode("——",$content)[0]; ?></div>
               </div>
             </div>
 

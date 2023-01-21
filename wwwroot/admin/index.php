@@ -177,6 +177,160 @@ if($_COOKIE["logon"] != md5($admin_password) || $_COOKIE["user"] != $admin_usern
 			</div>
 		</div>
 		</div>
+		</div>
+		<br/><br/><br/><br/><br/><br/><br/>
+		<div class="box header">
+		<div class="head"><div></div></div>
+		<h2>高级控制台</h2>
+		<div class="desc">
+			<div class="col w5 last">
+				<div class="content">
+					<form action="index.php" method="post">
+						指定作用的数据库名（保留文件后缀）： <input type="text" name="db" value="articles.db" class="text w_20"><br/>
+						输入SQL命令： <input type="text" name="sql" value="select * from articles" class="text w_20"><br/>
+						<a href="#" class="button form_submit"><small class="icon check"></small><span>提交</span><input type="submit" value="Submit" class="novisible" /></a>
+						<br>
+					</form>
+					<div id="table" class="help">
+						<h1>Table:</h1>
+						<div class="col w10 last">
+						<div class="content">
+						<table>
+						<tbody>
+					<?php
+					/*<div id="table" class="help">
+						<h1>Table:</h1>
+						<div class="col w10 last">
+						<div class="content">
+						<table>
+						<tbody><tr>
+						<th class="checkbox"><input type="checkbox" name="checkbox"></th>
+						<th>Th #1</th>
+						<th>Th #2</th>
+						<th>Th #3</th>
+						<th>Th #4</th>
+						<th>Th #5</th>
+						<th>Th #6</th>
+						</tr>
+						<tr id="id_1">
+						<td class="checkbox"><input type="checkbox" name="checkbox"></td>
+						<td>Lorem</td>
+						<td>Ipsum</td>
+						<td>Dolor</td>
+						<td>Sit</td>
+						<td>Amez</td>
+						<td>Consectetur</td>
+						</tr>
+						</tbody></table>
+						</div>
+						</div>
+						<div class="clear"></div>
+					</div>*/
+					if(isset($_POST['db']) && isset($_POST['sql'])){
+						if(!empty($_POST['db']) && !empty($_POST['sql'])){
+							if($_POST['db'] == 'users.db'){
+								$result = $users_db->query($_POST['sql']);
+								$cnt = 0;
+								while($row = $result->fetchArray(SQLITE3_ASSOC)){
+									if(!$cnt) {
+										echo "<tr>";
+										for($i=0;$i<count(array_keys($row));$i++){
+											echo "<th>".array_keys($row)[$i]."</th>";
+										}
+									}else{
+										echo "<tr id=\"id_$cnt\">";
+										for($i=0;$i<count(array_values($row));$i++){
+											echo "<td>".array_values($row)[$i]."</td>";
+										}
+									}
+									echo "</tr>";
+									$cnt++;
+								}
+							}
+							if($_POST['db'] == 'data.db'){
+								$result = $data_db->query($_POST['sql']);
+								$cnt = 0;
+								while($row = $result->fetchArray(SQLITE3_ASSOC)){
+									if(!$cnt) {
+										echo "<tr>";
+										for($i=0;$i<count(array_keys($row));$i++){
+											echo "<th>".array_keys($row)[$i]."</th>";
+										}
+									}else{
+										echo "<tr id=\"id_$cnt\">";
+										for($i=0;$i<count(array_values($row));$i++){
+											echo "<td>".array_values($row)[$i]."</td>";
+										}
+									}
+									echo "</tr>";
+									$cnt++;
+								}
+							}
+							if($_POST['db'] == 'articles.db'){
+								$result = $article_db->query($_POST['sql']);
+								$cnt = 0;
+								while($row = $result->fetchArray(SQLITE3_ASSOC)){
+									if(!$cnt) {
+										echo "<tr>";
+										for($i=0;$i<count(array_keys($row));$i++){
+											echo "<th>".array_keys($row)[$i]."</th>";
+										}
+									}else{
+										echo "<tr id=\"id_$cnt\">";
+										for($i=0;$i<count(array_values($row));$i++){
+											echo "<td>".array_values($row)[$i]."</td>";
+										}
+									}
+									echo "</tr>";
+									$cnt++;
+								}
+							}
+							if($_POST['db'] == 'news.db'){
+								$result = $news_db->query($_POST['sql']);
+								$cnt = 0;
+								while($row = $result->fetchArray(SQLITE3_ASSOC)){
+									if(!$cnt) {
+										echo "<tr>";
+										for($i=0;$i<count(array_keys($row));$i++){
+											echo "<th>".array_keys($row)[$i]."</th>";
+										}
+									}else{
+										echo "<tr id=\"id_$cnt\">";
+										for($i=0;$i<count(array_values($row));$i++){
+											echo "<td>".array_values($row)[$i]."</td>";
+										}
+									}
+									echo "</tr>";
+									$cnt++;
+								}
+							}
+							if($_POST['db'] == 'visitors.db'){
+								$result = $visitors_db->query($_POST['sql']);
+								$cnt = 0;
+								while($row = $result->fetchArray(SQLITE3_ASSOC)){
+									if(!$cnt) {
+										echo "<tr>";
+										for($i=0;$i<count(array_keys($row));$i++){
+											echo "<th>".array_keys($row)[$i]."</th>";
+										}
+									}else{
+										echo "<tr id=\"id_$cnt\">";
+										for($i=0;$i<count(array_values($row));$i++){
+											echo "<td>".array_values($row)[$i]."</td>";
+										}
+									}
+									echo "</tr>";
+									$cnt++;
+								}
+							}
+						}
+					}
+					echo "</tbody></table></div></div><div class=\"clear\"></div>";
+					?>
+				</div>
+			</div>
+		</div>
+		</div>
 		<div class="bottom"><div></div></div>
 		</div>
 		<div id="footer">

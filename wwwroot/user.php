@@ -44,6 +44,7 @@ while($row = $result->fetchArray(SQLITE3_ASSOC)){
    $INDEX_TITLE = $row['title'];
    $INDEX_CONTENT = $row['content'];
    $INDEX_DATE = $row['date'];
+   $INDEX_WP_TYPE = $row['wp_type'];
    //$INDEX_IMG = 'http://q2.qlogo.cn/headimg_dl?dst_uin='.$INDEX_QQID.'&spec=100';
    $INDEX_IMG = 'http://q2.qlogo.cn/headimg_dl?dst_uin='.$row['qqid'].'&spec=640&img_type=jpg';
    if($INDEX_QQID == '1145141919') $INDEX_IMG="https://pic1.zhimg.com/v2-a320f97fb44eb93b0e0d4cd4da6ddab0_180x120.jpg";
@@ -155,6 +156,18 @@ if(isset($LOGIN_USERNAME)){
     }
 }
 
+/* 查看是否请求修改壁纸类型 */
+if(isset($LOGIN_USERNAME)){
+  if($LOGIN_USERID == $INDEX_USERID){
+    if(isset($_GET['c_wp_type'])){
+      if($INDEX_WP_TYPE == 1) $INDEX_WP_TYPE = 0;
+      else if($INDEX_WP_TYPE == 0) $INDEX_WP_TYPE = 1;
+      $sql = "UPDATE users SET wp_type = $INDEX_WP_TYPE";
+      $result = $users_db->exec($sql);
+    }
+  }
+}
+
 ?>
 <html class="js sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers" lang="zh"><head>
   <meta charset="utf-8">
@@ -168,7 +181,6 @@ if(isset($LOGIN_USERNAME)){
 
 
   <!--Fonts section-->
-  <!--Use your own fonts here-->
   <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Magra:400,700" rel="stylesheet">
   <!--ENDOF Fonts section-->
@@ -239,9 +251,29 @@ if(isset($LOGIN_USERNAME)){
   <section class="section bg-light my-3 my-md-4">
     <div class="container">
       <div class="row py-4">
+      <?php 
+        if($LOGIN_USERID == $INDEX_USERID){
+          echo "<a href='?id=$LOGIN_USERID&c_wp_type=1'>切换壁纸风格</a>";
+        }
+        ?>
         <div class="col text-center">
-          <a href="#"><img src="https://api.ixiaowai.cn/api/api.php" class="img-fluid" width="550"></a>
+          <?php 
+          $sql = "SELECT * FROM users WHERE id = $INDEX_USERID";
+          $result = $users_db->query($sql);
+          while($row = $result->fetchArray(SQLITE3_ASSOC)){
+            // 暂不实现自定义壁纸 使用图片api 可以自定义图片类型
+            $type = $row['wp_type']; //wp_type: 0 风景;1 二次元;2 自定义（未实现）
+            if($type == 1){
+              echo '<a href="#"><img src="https://api.ixiaowai.cn/api/api.php" class="img-fluid" width="550"/></a>'; //给客户端处理，节省服务器资源
+            }else if($type == 0){
+              echo '<a href="#"><img src="https://api.ixiaowai.cn/gqapi/gqapi2.php" class="img-fluid" width="550"/></a>'; //给客户端处理，节省服务器资源
+            }else if($type == 2){
+              echo '<a href="#"><img src="'.$row['wp_src'].'" class="img-fluid" width="550"/></a>'; //未实现，先写一点
+            }
+          }
+          ?>
         </div>
+        
       </div>
     </div>
   </section>

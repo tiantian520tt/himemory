@@ -3,9 +3,9 @@ session_start();
 header("X-Content-Type-Options:nosniff;"); //反X-Content-Type-Options Header Missing漏洞,低危,ZAP扫描
 //header('X-Frame-Options:ALLOW-FROM https://himemory.191810.xyz/;'); // 修复X-Frame-Options Header Not Set漏洞,低危,ZAP扫描
 //header('Content-Security-Policy: frame-ancestors https://himemory.191810.xyz/;'); // 针对chrome内核修复X-Frame-Options Header Not Set漏洞,低危,ZAP扫描
-
+echo '<script type="text/javascript" src="https://cdn.repository.webfont.com/wwwroot/js/wf/youziku.api.min.js"></script><script type="text/javascript">$webfont.load("body", "ff1eb4b64f664a568aeabd030468f29b", "PingFangSCB");$webfont.draw();</script>';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">';
-error_reporting(0);
+//error_reporting(0);
 /* 
 @Date: 2023/1/4 12:06
 @Auther: tiantian520
@@ -138,6 +138,15 @@ try{
         $visitors_db->close();
         die;
     }
+    $data_db = new SQLite3('../database/data.db');
+    if (!$data_db) {
+        echo '<title> Oops! HiMemory crashed! </title>';
+        echo '<h1> Oops! HiMemory crashed! </title>';
+        echo 'code：' . $data_db->lastErrorCode();
+        echo 'Error：' . $data_db->lastErrorMsg();
+        $data_db->close();
+        die;
+    }
 }catch(Exception $e){
     $users_db = new SQLite3('./database/users.db');
     if (!$users_db) {
@@ -173,6 +182,15 @@ try{
         echo 'code：' . $visitors_db->lastErrorCode();
         echo 'Error：' . $visitors_db->lastErrorMsg();
         $visitors_db->close();
+        die;
+    }
+    $data_db = new SQLite3('./database/data.db');
+    if (!$data_db) {
+        echo '<title> Oops! HiMemory crashed! </title>';
+        echo '<h1> Oops! HiMemory crashed! </title>';
+        echo 'code：' . $data_db->lastErrorCode();
+        echo 'Error：' . $data_db->lastErrorMsg();
+        $data_db->close();
         die;
     }
 }
