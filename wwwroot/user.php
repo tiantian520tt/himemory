@@ -180,13 +180,13 @@ if(isset($LOGIN_USERNAME)){
 
 
   <!--Fonts section-->
-  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Magra:400,700" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Magra:400,700" rel="stylesheet"> -->
   <!--ENDOF Fonts section-->
 
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="./css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Place favicon.ico in the root directory -->
 
@@ -471,17 +471,11 @@ if(isset($LOGIN_USERNAME)){
 
   <script src="js/vendor/modernizr-3.6.0.min.js"></script>
   <script src="js/vendor/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="./js/bootstrap.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async="" defer=""></script>
 
 
-
-</body><div class="abineContentPanel" style="background-color:transparent !important;margin:0 !important;padding:0 !important;display:none !important;opacity:1 !important;filter:alpha(opacity:100) !important;z-index:2147483647 !important;position:absolute !important;top:20px !important;right:20px !important;overflow:hidden !important;border-width:0px !important;visibility:visible !important;background:transparent"><iframe class="abineContentFrame" width="310px" allowtransparency="true" frameborder="0" height="0px" scrolling="no" src="chrome-extension://emgfgdclgfeldebanedpihppahgngnle/html/inlineForm.html?abine1435586doNotRemove" id="abine1435586doNotRemove" position="undefined" style="display:block !important;position:relative !important;background:transparent !important;border-width:0px !important;left:0px !important;top:0px !important;visibility:visible !important;opacity:1 !important;filter:alpha(opacity:100) !important;margin:0 !important;padding:0 !important;height:0px !important;width:310px"></iframe></div></html>
+</body>
+</html>

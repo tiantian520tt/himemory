@@ -29,15 +29,48 @@ function getNews($id){
   global $news_db;
   $result = $news_db->query($sql);
   while($row = $result->fetchArray(SQLITE3_ASSOC)){
-     if(strlen($row['content']) > 60){
-         $content = "";
-         $row['content'] = str_replace('。','。<br&nbsp;/>',$row['content']); //防止内容太多，分段处理
-         $row['content'] = mbStrSplit(str_replace('<br&nbsp;/>','|',$row['content']),100);
+    $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br&nbsp;/>","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
+    $max = 0;$sum = 0; 
+    for($i = 0;$i < count($lines);$i++){
+      $sum .= strlen($lines[$i]);
+      if (strlen($lines[$i]) > $max){
+        $max = strlen($lines[$i]);
+      }
+    }
+    $avg = floor($sum / count($lines));
+    for($i = 0;$i < count($lines);$i++){
+      if(strlen($lines[$i]) > $avg){
+        $temp = mbStrSplit($lines[$i]);
+        $lines[$i] = "";
+        for($j = 0;$j < count($temp);$j++){
+          $lines[$i] .= $temp[$j];
+          if($j % $avg == 0){
+            $lines[$i] .= '<br />';
+          }
+        }
+      }
+    }
+    $row['content'] = "";
+    for($i = 0;$i < count($lines);$i++){
+      $row['content'] .= $lines[$i];
+      if(!(mbStrSplit($lines[$i])[count(mbStrSplit($lines[$i]))-1] == '>' && mbStrSplit($lines[$i])[count(mbStrSplit($lines[$i]))-2] == '/' && mbStrSplit($lines[$i])[count(mbStrSplit($lines[$i]))-3] == ' ' && mbStrSplit($lines[$i])[count(mbStrSplit($lines[$i]))-4] == 'r' && mbStrSplit($lines[$i])[count(mbStrSplit($lines[$i]))-5] == 'b' && mbStrSplit($lines[$i])[count(mbStrSplit($lines[$i]))-6] == '<')){
+        $row['content'] .= '<br />';
+      }
+    }
+    /*
+     if(strlen($row['content']) > 150){
+         $row['content'] = str_replace('。','。<br />',str_replace('.&nbsp;','.&nbsp; <br />',str_replace(":&nbsp;",": <br />",str_replace("：","： <br />",$row['content'])))); //防止内容太多，分段处理
+         $row['content'] = str_replace('；','； <br />',$row['content']);
+         $row['content'] = str_replace(';','; <br />',$row['content']);
+         $row['content'] = str_replace('! ','! <br />',$row['content']);
+         $row['content'] = str_replace('！','！ <br />',$row['content']);
+          //$row['content'] = mbStrSplit(str_replace(' <br />','|',$row['content']),100);
          for($i = 0;$i < count($row['content']);$i++){
              $content = $content.$row['content'][$i].'<br/>';
-         }
-         $row['content'] = str_replace('|','<br />',$content);
+         } 
+          //$row['content'] = str_replace('|','<br />',$content); 
      } 
+     */
      
     return $row;
   }
@@ -65,7 +98,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
 //var_dump(getNews(1));
 ?>
 <!-- index.php @Date 2023-01-04 15:57 A.M. @Auther tiantian520 -->
-<html class="js sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers" lang="zh"><head>
+<html lang="zh"><head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>HiMemory - 寒假期 - 电子报纸</title>
@@ -73,18 +106,17 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="./img/himemoryicon.png">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="./img/himemoryicon.png">
 
 
   <!--Fonts section-->
-  <link href="https://fonts.googleapis.cn/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">
-  <link href="https://fonts.googleapis.cn/css?family=Magra:400,700" rel="stylesheet">
-  <link href="https://fonts.googlefonts.cn/css?family=Montserrat" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.cn/css?family=Alegreya+Sans:400,500,700,800|Tinos:400,700&amp;subset=greek" rel="stylesheet">  -->
+  <!-- <link href="https://fonts.googleapis.cn/css?family=Magra:400,700" rel="stylesheet"> -->
+  <!-- <link href="https://fonts.googlefonts.cn/css?family=Montserrat" rel="stylesheet"> -->
   <!--ENDOF Fonts section-->
 
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="./css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Place favicon.ico in the root directory -->
 
@@ -1055,17 +1087,12 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
 
   <script src="js/vendor/modernizr-3.6.0.min.js"></script>
   <script src="js/vendor/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="./js/bootstrap.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async="" defer=""></script>
 
 
 
-</body><div class="abineContentPanel" style="background-color:transparent !important;margin:0 !important;padding:0 !important;display:none !important;opacity:1 !important;filter:alpha(opacity:100) !important;z-index:2147483647 !important;position:absolute !important;top:20px !important;right:20px !important;overflow:hidden !important;border-width:0px !important;visibility:visible !important;background:transparent"><iframe class="abineContentFrame" width="310px" allowtransparency="true" frameborder="0" height="0px" scrolling="no" src="chrome-extension://emgfgdclgfeldebanedpihppahgngnle/html/inlineForm.html?abine1435586doNotRemove" id="abine1435586doNotRemove" position="undefined" style="display:block !important;position:relative !important;background:transparent !important;border-width:0px !important;left:0px !important;top:0px !important;visibility:visible !important;opacity:1 !important;filter:alpha(opacity:100) !important;margin:0 !important;padding:0 !important;height:0px !important;width:310px"></iframe></div></html>
+</body>
+</html>
