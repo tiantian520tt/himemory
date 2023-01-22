@@ -24,7 +24,7 @@ if(!file_exists('total.log')){
     file_put_contents("videos.log",$log."\n".date('Y年m月d日 H时i分s秒')." 更新了视频信息\n");    
     file_put_contents('total.log',time());
 }else{
-    if(file_get_contents('total.log')-time() > 60){
+    if(time()-file_get_contents('total.log') > 60){
         $json = file_get_contents("http://c.m.163.com/nc/article/headline/T1348647853363/0-40.html");
         file_put_contents("news.news","$json");
         $log = file_get_contents("news.log");
