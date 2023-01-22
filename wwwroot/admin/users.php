@@ -132,7 +132,7 @@ $user_count = $users_db->querySingle($sql);
 												echo '<div class="shelf"><div class="left"></div><div class="right"></div><div class="inside"><div class="books">';
 												$cnt = 0;
 											}
-											echo '<div class="col w2"><a href=""><span>';
+											echo '<div class="col w2"><a href="'."/user.php?id=".$row['id'].'"><span>';
 											echo $row['name'];
 											echo '</span><img src="http://q2.qlogo.cn/headimg_dl?dst_uin='.$row['qqid'].'&spec=100" alt=""/></a></div>';
 											$cnt++;

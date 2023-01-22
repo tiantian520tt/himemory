@@ -76,12 +76,6 @@ while($row = $result->fetchArray(SQLITE3_ASSOC)){
     }
 }
 
-/* 判断敏感字符串 */
-if($username == '熊昊思成' || $username == '熊昊' || $username == '班长' || $username == '黄俊' || $username == '给生活上点颜色' || $username == '月亮让我去罚站'){
-    echo "<script>alert(\"用户名处于特级权限，无法注册。\"); window.location.href=\"register.php\";</script>";
-    die;
-}
-
 
 /* SQL注入防护并向数据库添加用户 */
 $username = htmlspecialchars(addslashes($username));
@@ -89,7 +83,7 @@ $password = md5(htmlspecialchars(addslashes($password)));
 $type = 0; // 默认普通用户
 $qq_id = htmlspecialchars(addslashes($qq_id));
 $date_ = date('Y年m月d日 H时i分s秒');
-$sql = "INSERT INTO users VALUES (null,'$username',0,0,'$password','$qq_id','呃，我是谁？','记录一些吧！','$date_')";
+$sql = "INSERT INTO users VALUES (null,'$username',0,0,'$password','$qq_id','呃，我是谁？','记录一些吧！','$date_','',0)";
 $result = $users_db->exec($sql);
 if($result){
     echo "<script> alert(\"成功！\"); window.location.href=\"login.php\";</script>";

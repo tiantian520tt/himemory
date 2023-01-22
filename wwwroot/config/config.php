@@ -1,11 +1,34 @@
 <?php
 session_start();
 header("X-Content-Type-Options:nosniff;"); //反X-Content-Type-Options Header Missing漏洞,低危,ZAP扫描
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~  线上环境请务必将以下两条的内容设置好!!!  ~*/
+/*~  线上环境请务必将以下两条的内容设置好!!!  ~*/
+/*~  线上环境请务必将以下两条的内容设置好!!!  ~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+
+
 //header('X-Frame-Options:ALLOW-FROM https://himemory.191810.xyz/;'); // 修复X-Frame-Options Header Not Set漏洞,低危,ZAP扫描
 //header('Content-Security-Policy: frame-ancestors https://himemory.191810.xyz/;'); // 针对chrome内核修复X-Frame-Options Header Not Set漏洞,低危,ZAP扫描
-echo '<script type="text/javascript" src="https://cdn.repository.webfont.com/wwwroot/js/wf/youziku.api.min.js"></script><script type="text/javascript">$webfont.load("body", "ff1eb4b64f664a568aeabd030468f29b", "PingFangSCB");$webfont.draw();</script>';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">';
-//error_reporting(0);
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~  线上环境请务必将error_reporting注释掉!!! ~*/
+/*~  线上环境请务必将error_reporting注释掉!!! ~*/
+/*~  线上环境请务必将error_reporting注释掉!!! ~*/
+error_reporting(0); 
+/*~  线上环境请务必将error_reporting注释掉!!! ~*/
+/*~  线上环境请务必将error_reporting注释掉!!! ~*/
+/*~  线上环境请务必将error_reporting注释掉!!! ~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~ WARNING ~~~~~~~~~~~~~~~~~~*/
+
 /* 
 @Date: 2023/1/4 12:06
 @Auther: tiantian520
@@ -15,8 +38,8 @@ Powered by HiMemory, @tiantian520
 */
 
 /* 此文件会被include包含 */
-$admin_password = "test"; //管理员密码，必须设置
 $admin_username = "test"; //管理员用户名，必须设置
+$admin_password = "test"; //管理员密码，必须设置
 
 /* 生成反CSRF令牌 */
 if (empty($_SESSION['token'])) {
@@ -27,6 +50,16 @@ if (empty($_SESSION['token'])) {
     }
 }
 $token = $_SESSION['token'];
+
+function NewYear(){
+    $month = date("n");
+    $day = intval(date("d"));
+    $is_show = $month == 1 || ($month == 2 and $day < 10);
+    if($is_show) {
+        echo '<script src="https://cdn.jsdelivr.net/gh/fz6m/china-lantern@1.1/dist/china-lantern.min.js"></script>';
+    }
+}
+
 
 
 function all_external_link($text = '', $host = '') {

@@ -47,7 +47,6 @@ while($row = $result->fetchArray(SQLITE3_ASSOC)){
    $INDEX_WP_TYPE = $row['wp_type'];
    //$INDEX_IMG = 'http://q2.qlogo.cn/headimg_dl?dst_uin='.$INDEX_QQID.'&spec=100';
    $INDEX_IMG = 'http://q2.qlogo.cn/headimg_dl?dst_uin='.$row['qqid'].'&spec=640&img_type=jpg';
-   if($INDEX_QQID == '1145141919') $INDEX_IMG="https://pic1.zhimg.com/v2-a320f97fb44eb93b0e0d4cd4da6ddab0_180x120.jpg";
 }
 
 
@@ -149,7 +148,7 @@ if(isset($LOGIN_USERNAME)){
                 $content = htmlspecialchars(addslashes($_POST['content']));
                 $content = processContent($content);
                 $date_ = date('Y年m月d日 H时i分s秒');
-                $sql = "INSERT INTO articles values('$date_','$title','','$content',$INDEX_USERID,0,0)";
+                $sql = "INSERT INTO articles values('$date_','$title','','$content',$INDEX_USERID,0,0,NULL)";
                 $result = $article_db->exec($sql);
             }
         }        
@@ -162,7 +161,7 @@ if(isset($LOGIN_USERNAME)){
     if(isset($_GET['c_wp_type'])){
       if($INDEX_WP_TYPE == 1) $INDEX_WP_TYPE = 0;
       else if($INDEX_WP_TYPE == 0) $INDEX_WP_TYPE = 1;
-      $sql = "UPDATE users SET wp_type = $INDEX_WP_TYPE";
+      $sql = "UPDATE users SET wp_type = $INDEX_WP_TYPE WHERE id = $INDEX_USERID";
       $result = $users_db->exec($sql);
     }
   }
@@ -337,7 +336,7 @@ if(isset($LOGIN_USERNAME)){
                   if(isset($liked)) if($liked==true) echo "<i><b>感谢你的点赞！</b></i><br/>"; else echo "<i><b>呃，5分钟内只能点赞一次哦。</b></i><br/>";
                   ?>
                 <i>TA共获得了<?php echo $INDEX_LIKE; ?>个赞</i><br/>
-                <<?php if(isset($liked)) echo "b";else echo "a"; ?> href="user.php?id=<?php echo $INDEX_USERID; ?>&like=1" >为TA点赞</<?php if(isset($liked)) echo "b";else echo "a"; ?>></div>
+                <<?php if(isset($liked)) echo "b";else echo "a"; ?> href="user.php?id=<?php echo $INDEX_USERID; ?>&like=1" >为<?php if($INDEX_USERID == $LOGIN_USERID) echo "自己点赞！";else echo "TA点个赞吧~"; ?></<?php if(isset($liked)) echo "b";else echo "a"; ?>></div>
             </div>
           </div>
         </div>

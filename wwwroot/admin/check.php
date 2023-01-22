@@ -30,18 +30,20 @@ if(empty($username) || empty($password)){
     die;
 }
 /* 判断用户名密码是否正确 */
+
 if ($username == $admin_username){
     if ($password == $admin_password){
-        setcookie("user",$username,time()+1800);
-        setcookie("logon",md5($password),time()+1800);
-        echo "<script> window.location.href=\"index.php?status=$username\";</script>";
-        die;
+            setcookie("user",$username,time()+1800);
+            setcookie("logon",md5($password),time()+1800);
+            echo "<script> window.location.href=\"index.php?status=$username\";</script>";
+            die;
     }else{
         echo "<script> alert(\"用户名或密码错误。\"); window.location.href=\"login.php\";</script>";
 	    die;
     }
 }else{
-    echo "<script> alert(\"用户名或密码错误。\"); window.location.href=\"login.php\";</script>";
-	die;
+        echo "<script> alert(\"用户名或密码错误。\"); window.location.href=\"login.php\";</script>";
+    	die;
 }
+
 ?>

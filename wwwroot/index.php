@@ -11,12 +11,34 @@ Powered by HiMemory, @tiantian520
 */
 /* include 网站配置 */
 include './config/config.php';
+NewYear();
+
+function mbStrSplit ($string, $len=1) {
+  $start = 0;
+  $strlen = mb_strlen($string);
+  while ($strlen) {
+    $array[] = mb_substr($string,$start,$len,"utf8");
+    $string = mb_substr($string, $len, $strlen,"utf8");
+    $strlen = mb_strlen($string);
+  }
+  return $array;
+}
 
 function getNews($id){
   $sql = 'SELECT * FROM news WHERE id = '.$id;
   global $news_db;
   $result = $news_db->query($sql);
   while($row = $result->fetchArray(SQLITE3_ASSOC)){
+     if(strlen($row['content']) > 60){
+         $content = "";
+         $row['content'] = str_replace('。','。<br&nbsp;/>',$row['content']); //防止内容太多，分段处理
+         $row['content'] = mbStrSplit(str_replace('<br&nbsp;/>','|',$row['content']),100);
+         for($i = 0;$i < count($row['content']);$i++){
+             $content = $content.$row['content'][$i].'<br/>';
+         }
+         $row['content'] = str_replace('|','<br />',$content);
+     } 
+     
     return $row;
   }
 }
@@ -220,7 +242,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         */
         // It started working! -- 它开始工作了！
         $row = getNews(5); // Function Get News Information -- 函数 获得新闻信息
-        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br />","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
+        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br&nbsp;/>","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
         $max = 0; // Set $max value -- 设置最大值
         for($i = 0;$i < count($lines);$i++){ // Go to find the maximum value -- 去找到最大值
           if (strlen($lines[$i]) > $max){
@@ -230,7 +252,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         $title_5 = strlen($row['title']);
         // Again! -- 再来！
         $row = getNews(6); // Function Get News Information -- 函数 获得新闻信息
-        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br />","<br />",$row['content']))));
+        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br&nbsp;/>","<br />",$row['content']))));
         for($i = 0;$i < count($lines);$i++){ // Go to find the maximum value -- 去找到最大值
           if (strlen($lines[$i]) > $max){
             $max = strlen($lines[$i]);
@@ -240,8 +262,8 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         $max = max(array($max,$title5,$title6));
         $TOTAL = 0;
         if($max > 80){
-          echo "6";
-          $TOTAL += 6;
+          echo "5";
+          $TOTAL += 5;
         }
         else if($max > 52 && $max <= 80){
           echo "5";
@@ -327,7 +349,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         */
         // It started working! -- 它开始工作了！
         $row = getNews(7); // Function Get News Information -- 函数 获得新闻信息
-        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br />","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
+        $lines = explode("<br />",str_replace("<br/>","<br />",str_replace("<br>","<br />",str_replace("<br&nbsp;/>","<br />",$row['content'])))); // Cut text by line -- 按行切割文本
         $max = 0; // Set $max value -- 设置最大值
         for($i = 0;$i < count($lines);$i++){ // Go to find the maximum value -- 去找到最大值
           if (strlen($lines[$i]) > $max){
@@ -337,8 +359,8 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         $title_7 = strlen($row['title']);
         $max = max(array($max,$title7));
         if($max > 80){
-          echo "6";
-          $TOTAL += 6;
+          echo "5";
+          $TOTAL += 5;
         }
         else if($max > 52 && $max <= 80){
           echo "5";
@@ -401,7 +423,7 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
         </div>
 
         <!--Column Right -->
-        <div class="col-12 order-2 order-lg-3 col-sm-12 col-lg-5 col-xl-<?php echo 12-$TOTAL; //留下最大空间?> mb-3 mb-lg-0 ">
+        <div class="col-12 order-2 order-lg-3 col-sm-12 col-lg-5 col-xl-<?php if(12-$TOTAL<1) echo 1; else echo 12-$TOTAL; //留下最大空间，但至少为1 ?> mb-3 mb-lg-0 ">
 
           <div class="post mb-3">
             <div class="post-media float-left mr-3">
@@ -843,19 +865,6 @@ if (isset($_COOKIE["logon"]) and isset($_COOKIE["user"])){
                 </div>
                 <div class="post-body">
                   <div class="post-content">你好，这里是HiMemory！<br/>
-                本项目同时兼容Linux/Windows环境，运行在PHP5.X/HTML5/CSS3且支持Nginx/Apache，只需要稍加配置便可以部署成型。<br/>
-              另外，本站点的代码简洁明了，几乎每段PHP代码都有注释，方便理解和二次开发。<br/>
-            目前，站点已经实现了首页部分文章的增删修改、用户CMS系统。<br/>
-            在这里感谢：
-              <a href="https://github.com/cookforweb/html-newspaper">Cookforweb 用爱制作此报纸HTML模板</a><br/>
-              <a href="#">未知作者 制作了后台HTML模板</a><br/>
-              本人负责：<br/>
-              全部PHP代码构造<br/>
-              本站点的管理员页面：http(s)://IP:PORT/admin/index.php<br/>
-              您需要先配置./config/config.php里的两个管理员用户名、密码，并且注册ID为1的第一个账号作为管理员。<br/>
-              感谢您的阅读！<br/>
-              Powered by SkyLine Studio including tiantian520, Thanks for Cookforweb and Unknown auther.
-              (呃，这里的页面暂时不支持动态修改，需要自行修改html。因为这里应该是自定义二次开发的区域。)
             </div>
                   <div class="post-date">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>2023年1月18日 Generated by EXCITING from tiantian520</div>

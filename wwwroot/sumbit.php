@@ -10,11 +10,11 @@ Powered by HiMemory, @tiantian520
 */
 include './config/config.php';
 //检查反CSRF令牌
-if(!isset($_SESSION['token']) || !isset($_POST['token'])){
-    echo "<script> alert(\"CSRF令牌校验错误！\"); window.location.href=\"inndex.php\";</script>";
+if(!isset($_SESSION['token']) || !isset($_GET['token'])){
+    echo "<script> alert(\"CSRF令牌校验错误！\"); window.location.href=\"index.php\";</script>";
 	die;
 }
-if (!($_SESSION['token'] === $_POST['token'])){
+if (!($_SESSION['token'] === $_GET['token'])){
     echo "<script> alert(\"CSRF令牌校验错误！\"); window.location.href=\"index.php\";</script>";
 	die;
 }
@@ -56,7 +56,7 @@ try{
     $title = base64_encode($title);
     $date_ = date('Y年m月d日 H时i分s秒');
     $maindir = './database/data.db';
-    $main = new \SQLite3($maindir);
+    $main = new SQLite3($maindir);
     if (!$main) {
         echo 'code：' . $main->lastErrorCode();
         echo 'Error：' . $main->lastErrorMsg();
