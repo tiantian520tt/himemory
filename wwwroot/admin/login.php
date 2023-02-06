@@ -46,12 +46,12 @@ if (isset($_COOKIE["logon"]) && isset($_COOKIE["user"])){
 						<form action="check.php" method="post">
 							<p>
 								<label for="username">Username:</label>
-								<input type="text" name="username" id="username" value="" size="40" class="text" />
+								<input type="text" name="username" id="username" value="" size="32" class="text" />
 								<br />
 							</p>
 							<p>
 								<label for="password">Password:</label>
-								<input type="password" name="password" id="password" value="" size="40" class="text" />
+								<input type="password" name="password" id="password" value="" size="32" class="text" />
 								<br />
 							</p>
 							<p class="last">

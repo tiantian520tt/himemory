@@ -83,7 +83,17 @@ $password = md5(htmlspecialchars(addslashes($password)));
 $type = 0; // 默认普通用户
 $qq_id = htmlspecialchars(addslashes($qq_id));
 $date_ = date('Y年m月d日 H时i分s秒');
-$sql = "INSERT INTO users VALUES (null,'$username',0,0,'$password','$qq_id','呃，我是谁？','记录一些吧！','$date_','',0)";
+// 检查是否是第一位注册的用户，若是则是管理员。
+$sql = "SELECT * FROM users";
+$result = $users_db->query($sql);
+$cnt = 0;
+while($row = $result->fetchArray(SQLITE3_ASSOC)){
+    $cnt ++;
+}
+if(!$cnt){
+    $type = 1;
+}
+$sql = "INSERT INTO users VALUES (null,'$username',$type,0,'$password','$qq_id','呃，我是谁？','记录一些吧！','$date_','',0)";
 $result = $users_db->exec($sql);
 if($result){
     echo "<script> alert(\"成功！\"); window.location.href=\"login.php\";</script>";
